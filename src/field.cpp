@@ -21,11 +21,18 @@ void Field::AddBunny()
     idCount++;
 }
 
-void Field::RmBunny(int id)
+/* void Field::RmBunny(int id)
 {
     list<unique_ptr<Bunny>>& bList = GetBunnyList();
     bList.erase(std::remove_if(begin(bList), end(bList), 
         [id](const unique_ptr<Bunny>& u_ptr) { return (*u_ptr).GetID() == id; }), end(bList));
+    bunnyCount--;
+} */
+void Field::RmBunny(unique_ptr<Bunny>& u_ptr)
+{
+    list<unique_ptr<Bunny>>& bList = GetBunnyList();
+    bList.remove(u_ptr);
+    bunnyCount--;
 }
 
 
@@ -35,16 +42,25 @@ void Field::IncrementAge()
     for(unique_ptr<Bunny>& u_ptr : GetBunnyList())
     {
         u_ptr->SetAge(u_ptr->GetAge() + 1);
-        if( (!u_ptr->GetIsMutant() && u_ptr->GetAge() > 10) || (u_ptr->GetIsMutant() && u_ptr->GetAge() > 49) ) 
+        if(!u_ptr->GetIsMutant() && u_ptr->GetAge() > 10) 
         { 
-            RmBunny(u_ptr->GetID()); 
+            RmBunny(u_ptr/*->GetID()*/); 
+            std::cout << "Bunny " << u_ptr->GetName() << " died!\n";
+        }
+        else if(u_ptr->GetIsMutant() && u_ptr->GetAge() > 49)
+        {
+            RmBunny(u_ptr/*->GetID()*/);
+            std::cout << "Radioactive Mutant Vampire Bunny " << u_ptr->GetName() << " died!\n";
         }
     }
 }
 
 void Field::Breed()
 {
+    for(unique_ptr<Bunny>& u_ptr : GetBunnyList())
+    {
 
+    }
 }
 
 

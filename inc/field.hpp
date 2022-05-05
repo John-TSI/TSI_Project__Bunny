@@ -27,6 +27,7 @@ class Field
         // --- add/remove ---
         void AddBunny();
         void RmBunny(int);
+        void RmBunny(unique_ptr<Bunny>&);
 
         // --- advance methods ---
         void IncrementAge();

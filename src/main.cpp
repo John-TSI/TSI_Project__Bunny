@@ -11,7 +11,9 @@ int main()
 
     Field F;
     F.Initialise();
-    F.RmBunny(3);
+    list<unique_ptr<Bunny>>::iterator it = F.GetBunnyList().begin();
+    std::advance(it,3);
+    F.RmBunny(*it);
     F.PrintBunnies();
 
 
