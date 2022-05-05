@@ -11,7 +11,6 @@ namespace _Bunny
 {
     class Bunny
     {
-        int id = 0;
         string name = "";
         int age = 0;
         string sex = "";
@@ -20,12 +19,10 @@ namespace _Bunny
 
         public:
             // --- constructors ---
-            explicit Bunny(int);
-            Bunny(int,string); // overloaded constructor to initialise colour using mother
+            Bunny();
+            explicit Bunny(string);  // initialise using mother's colour
 
             // ---getters/setters ---
-            int GetID() const;
-            void SetID(int);
             string GetName() const;
             void SetName(string);
             int GetAge() const;

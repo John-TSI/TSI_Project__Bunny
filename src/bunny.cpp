@@ -5,15 +5,13 @@ using _Bunny::Bunny;
 
 
 // --- constructors ---
-Bunny::Bunny(int id) :
-    id(id),
+Bunny::Bunny() :
     name(NamesMap[ rand()%(NamesMap.size()) ]), 
     sex(SexesMap[ rand()%2 ]),
     colour(ColoursMap[ rand()%4 ]),
     isMutant( (rand()%100 < 2) ? true : false ) {}
 
-Bunny::Bunny(int id, string colour) :
-    id(id),
+Bunny::Bunny(string colour) :
     name(NamesMap[ rand()%7 ]), 
     sex(SexesMap[ rand()%2 ]),
     colour(colour),
@@ -21,8 +19,6 @@ Bunny::Bunny(int id, string colour) :
 
 
 // --- getters/setters ---
-int Bunny::GetID() const { return id; }
-void Bunny::SetID(int input) { id = input; }
 string Bunny::GetName() const { return name; }
 void Bunny::SetName(string input) { name = input; }
 int Bunny::GetAge() const { return age; }
