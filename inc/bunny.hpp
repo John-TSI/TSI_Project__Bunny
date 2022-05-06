@@ -15,7 +15,7 @@ namespace _Bunny
         int age = 0;
         string sex = "";
         string colour = "";
-        bool isMutant = false;
+        bool isInfected = false;
 
         public:
             // --- constructors ---
@@ -31,8 +31,8 @@ namespace _Bunny
             void SetSex(string);
             string GetColour() const;
             void SetColour(string);
-            bool GetIsMutant() const;
-            void SetIsMutant(bool);
+            bool GetIsInfected() const;
+            void SetIsInfected(bool);
     };
 }
 
