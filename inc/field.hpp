@@ -7,6 +7,7 @@
 #include<map>
 #include"bunny.hpp"
 
+
 using std::list; using std::unique_ptr; using _Bunny::Bunny;
 
 
@@ -21,20 +22,24 @@ class Field
 
     public:
         // --- getters/setters ---
+        int GetBunnyCount() const;
+        void SetBunnyCount(int);
         list<unique_ptr<Bunny>>& GetBunnyList();
 
         // --- add/remove ---
-        void AddBunny(/*unique_ptr<Bunny>&*/);
-        void RmBunny(unique_ptr<Bunny>&);
+        void AddBunny();
+        void AddBunny(string);
+        //void RmBunny(unique_ptr<Bunny>&);
+        void RmBunny(list<unique_ptr<Bunny>>::iterator&);
+
+        // --- utility ---
+        void Initialise();
+        bool CheckBreedMalesExist();
+        void PrintBunnies();
 
         // --- advance ---
         void IncrementAges();
         void Breed();
-
-        // --- utility ---
-        void Initialise();
-        void PrintBunnies();
-
 };
 
 #endif
