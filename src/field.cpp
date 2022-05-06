@@ -52,7 +52,7 @@ void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it)
     { 
         std::cout << "Bunny " << u_ptr->GetName() << " died!\n";
     }
-    bunnyList.erase(it++); // erase item pointed by it, then advance it
+    bunnyList.erase(it++); // erase item pointed by it, then advance iterator
     bunnyCount--;
 }
 
@@ -64,7 +64,7 @@ void Field::Initialise()
 }
 
 /*SexesMap[Sexes::Male]*/
-bool Field::CheckBreedMalesExist()
+bool Field::CheckBreedMaleExists()
 {
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
@@ -93,7 +93,7 @@ void Field::PrintBunnies()
 
         std::cout << status << name << " (Age: " << age << ", Sex: " << sex << ", Colour: " << colour << ")\n";
     }
-    std::cout << "\nThere are " << infectedCount << " infected Bunnies.\n";
+    std::cout << "\n" << infectedCount << " of " << bunnyCount << " Bunnies are infected.\n";
 }
 
 
@@ -105,12 +105,12 @@ void Field::IncrementAges()
     {
         const unique_ptr<Bunny>& u_ptr = *it;
         u_ptr->SetAge(u_ptr->GetAge() + 1); 
-        if(!u_ptr->GetIsInfected() && u_ptr->GetAge() > lifespan) 
+        if(!(u_ptr->GetIsInfected()) && (u_ptr->GetAge() > lifespan)) 
         { 
             RmBunny(it);
-            continue; // call to RmBunny() will advance it
+            continue; // call to RmBunny() will advance iterator
         }
-        else if(u_ptr->GetIsInfected() && u_ptr->GetAge() > infectedLifespan)
+        if((u_ptr->GetIsInfected()) && (u_ptr->GetAge() > infectedLifespan))
         { 
             RmBunny(it);
             continue;
@@ -121,7 +121,7 @@ void Field::IncrementAges()
 
 void Field::Breed()
 {
-    if(!(CheckBreedMalesExist()) || allInfected) { return; }
+    if(!(CheckBreedMaleExists()) || allInfected) { return; }
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
     {
@@ -143,7 +143,7 @@ void Field::SpreadInfection()
     }
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     const unique_ptr<Bunny>& u_ptr = *it;
-    if(infectedCount>=bunnyCount/2)
+    if(infectedCount >= ((bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2) )
     {
         allInfected = true;
         while(it!=bunnyList.end())

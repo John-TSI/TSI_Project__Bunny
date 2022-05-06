@@ -26,13 +26,19 @@ int main()
         F.PrintBunnies();
         F.SpreadInfection(); */
 
-        F.Breed();
+/*         F.Breed();
         F.PrintBunnies();
         F.IncrementAges();
+        F.SpreadInfection(); */
+        
+        F.Breed();
+        F.IncrementAges();
         F.SpreadInfection();
+        F.PrintBunnies();
 
         std::cout << "Press any key to advance (q to quit):\n> ";
         std::cin >> input;
+        std::cout << "\n";
     }
     std::cout<< "All Bunnies have died.\n";
 
