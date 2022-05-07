@@ -81,6 +81,7 @@ bool Field::CheckBreedMaleExists()
 
 void Field::PrintBunnies()
 {
+    if(bunnyCount == 0 || initialTurn) { return; }
     std::cout << "\nList of Bunnies in the field:\n";
     std::cout << "-----------------------------\n";
     for(unique_ptr<Bunny>& u_ptr : bunnyList)
@@ -93,13 +94,21 @@ void Field::PrintBunnies()
 
         std::cout << status << name << " (Age: " << age << ", Sex: " << sex << ", Colour: " << colour << ")\n";
     }
-    std::cout << "\n" << infectedCount << " of " << bunnyCount << " Bunnies are infected.\n";
+    if(allInfected)
+    {
+        std::cout << "\nAll " << bunnyCount << " Bunnies are infected!\n";
+    }
+    else
+    {
+        std::cout << "\n" << infectedCount << " of " << bunnyCount << " Bunnies are infected.\n";
+    }
 }
 
 
 // --- advance ---
 void Field::IncrementAges()
 { 
+    if(initialTurn) { return; }
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
     {
@@ -138,17 +147,18 @@ void Field::SpreadInfection()
 {
     if(allInfected)
     {
-        std::cout << "All Bunnies have become infected!\n";
+        infectedCount = bunnyCount;
         return;
     }
+
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
-    const unique_ptr<Bunny>& u_ptr = *it;
-    if(infectedCount >= ((bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2) )
+    if(infectedCount >= ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2) )
     {
         allInfected = true;
         while(it!=bunnyList.end())
         {
-            if(!u_ptr->GetIsInfected()) { u_ptr->SetIsInfected(true); }
+            const unique_ptr<Bunny>& u_ptr = *it;
+            if(!(u_ptr->GetIsInfected())) { u_ptr->SetIsInfected(true); }
             ++it;
         }
         infectedCount = bunnyCount;
@@ -158,7 +168,7 @@ void Field::SpreadInfection()
     int newInfected = 0;
     while(newInfected<infectedCount)
     {
-        if(!(*it)->GetIsInfected())
+        if(!((*it)->GetIsInfected()))
         {
             (*it)->SetIsInfected(true);
             newInfected++;
@@ -166,4 +176,19 @@ void Field::SpreadInfection()
         advance(it,1); 
     }
     infectedCount+=newInfected;
+}
+
+char Field::Advance()
+{
+    SpreadInfection();
+    IncrementAges();
+    Breed();
+    PrintBunnies();
+
+    initialTurn = false;
+    char input = 'z';
+    std::cout << "\nPress any key to advance (q to quit):\n> ";
+    std::cin >> input;
+    std::cout << "\n";
+    return input;
 }

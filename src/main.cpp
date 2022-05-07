@@ -8,39 +8,17 @@
 
 
 int main()
-{   srand(time(NULL)); // seed rand()
-
+{   
+    srand(time(NULL)); 
     Field F;
     F.Initialise();
 
     char input = 'z';
     while(input != 'q' && F.GetBunnyCount() > 0)
     {
-/*         F.PrintBunnies();
-        F.IncrementAges();
-        F.Breed();
-        F.SpreadInfection(); */
-
-/*         F.IncrementAges();
-        F.Breed();
-        F.PrintBunnies();
-        F.SpreadInfection(); */
-
-/*         F.Breed();
-        F.PrintBunnies();
-        F.IncrementAges();
-        F.SpreadInfection(); */
-        
-        F.Breed();
-        F.IncrementAges();
-        F.SpreadInfection();
-        F.PrintBunnies();
-
-        std::cout << "Press any key to advance (q to quit):\n> ";
-        std::cin >> input;
-        std::cout << "\n";
+        input = F.Advance();
     }
-    std::cout<< "All Bunnies have died.\n";
+    std::cout<< "All Bunnies have died.";
 
     return 0;
 }
