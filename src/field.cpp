@@ -1,7 +1,7 @@
 #include<iostream>
+#include<iomanip>
 #include<algorithm>
 #include"../inc/field.hpp"
-//#include"../inc/attributes.hpp"
 
 
 // --- getters/setters ---
@@ -24,7 +24,7 @@ void Field::AddBunny()
     }
     bunnyCount++;
 }
-void Field::AddBunny(string colour)
+void Field::AddBunny(_Bunny::Colour colour)
 {
     bunnyList.push_front(std::make_unique<Bunny>(colour));
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
@@ -63,19 +63,18 @@ void Field::Initialise()
     for(int i=0; i<initCount; i++) { AddBunny(); }
 }
 
-/*SexesMap[Sexes::Male]*/
 bool Field::CheckBreedMaleExists()
 {
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
     {
         const unique_ptr<Bunny>& u_ptr = *it;
-        if((u_ptr->GetSex() == "Male") && (u_ptr->GetAge() >= adultAge) && !(u_ptr->GetIsInfected()) )
+        if((u_ptr->GetSex() == _Bunny::Sex::Male) && (u_ptr->GetAge() >= adultAge) && !(u_ptr->GetIsInfected()) )
         { 
             return true; 
         }
         ++it;
-    }
+    } 
     return false;
 }
 
@@ -100,10 +99,10 @@ void Field::PrintBunnies()
         string status = (u_ptr->GetIsInfected()) ? "Infected Bunny " : "Bunny ";
         string name = u_ptr->GetName();
         int age = u_ptr->GetAge();
-        string sex = u_ptr->GetSex();
-        string colour = u_ptr->GetColour();
+        string sex = _Bunny::SexesMap[u_ptr->GetSex()];
+        string colour = _Bunny::ColoursMap[u_ptr->GetColour()];
 
-        std::cout << status << name << " (Age: " << age << ", Sex: " << sex << ", Colour: " << colour << ")\n";
+        std::cout << status << name << std::setw(16 - name.length()) << " (Age: " << age << ", Sex: " << sex << ", Colour: " << colour << ")\n";
     }
     if(allInfected)
     {
@@ -146,7 +145,7 @@ void Field::Breed()
     while(it!=bunnyList.end())
     {
         const unique_ptr<Bunny>& u_ptr = *it;
-        if((u_ptr->GetSex() == "Female") && (u_ptr->GetAge() >= adultAge) && !(u_ptr->GetIsInfected()))
+        if((u_ptr->GetSex() == _Bunny::Sex::Female) && (u_ptr->GetAge() >= adultAge) && !(u_ptr->GetIsInfected()))
         {
             AddBunny(u_ptr->GetColour());
         }
@@ -193,7 +192,7 @@ char Field::Advance()
 {
     if(bunnyCount > 1000)
     { 
-        std::cout << "Maximum sustainable population exceeded, a food shortage occurs.\n";
+        std::cout << "Maximum sustainable population exceeded, a food shortage occurs.\n\n";
         MassCull(); 
     }
     

@@ -3,10 +3,6 @@
 #include"../inc/field.hpp"
 
 
-// --- TO-DO ---
-// - remove AddBunny()? Use Initialise() and Breed() methods only?
-
-
 int main()
 {   
     srand(time(NULL)); 

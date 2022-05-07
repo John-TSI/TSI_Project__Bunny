@@ -3,8 +3,6 @@
 
 #include<list>
 #include<memory>
-#include<string>
-#include<map>
 #include"bunny.hpp"
 
 
@@ -26,7 +24,7 @@ class Field
 
         // --- add/remove ---
         void AddBunny();
-        void AddBunny(string);
+        void AddBunny(_Bunny::Colour);
         void RmBunny(list<unique_ptr<Bunny>>::iterator&);
 
         // --- utility ---
