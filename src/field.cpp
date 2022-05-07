@@ -80,7 +80,7 @@ bool Field::CheckBreedMaleExists()
 
 void Field::MassCull()
 {
-    int deadCount = ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2 );
+    int deadCount = ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount - 1)/2 );
     for (int i = 0; i < deadCount; i++)
     {
         list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
@@ -89,33 +89,43 @@ void Field::MassCull()
     }
 }
 
-void Field::PrintBunnies()
-{
-    if(bunnyCount == 0 || initialTurn) { return; }
-    std::cout << "\nList of Bunnies in the field:\n";
-    std::cout << "-----------------------------\n";
-    for(unique_ptr<Bunny>& u_ptr : bunnyList)
-    {
-        string status = (u_ptr->GetIsInfected()) ? "Infected Bunny " : "Bunny ";
-        string name = u_ptr->GetName();
-        int age = u_ptr->GetAge();
-        string sex = _Bunny::SexesMap[u_ptr->GetSex()];
-        string colour = _Bunny::ColoursMap[u_ptr->GetColour()];
-
-        std::cout << status << name << std::setw(16 - name.length()) << " (Age: " << age << ", Sex: " << sex << ", Colour: " << colour << ")\n";
-    }
-    if(allInfected)
-    {
-        std::cout << "\nAll " << bunnyCount << " Bunnies are infected!\n";
-    }
-    else
-    {
-        std::cout << "\n" << infectedCount << " of " << bunnyCount << " Bunnies are infected.\n";
-    }
-}
-
 
 // --- advance ---
+void Field::SpreadInfection()
+{
+    if(allInfected)
+    {
+        infectedCount = bunnyCount;
+        return;
+    }
+
+    list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
+    if(infectedCount >= ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2) )
+    {
+        allInfected = true;
+        while(it!=bunnyList.end())
+        {
+            const unique_ptr<Bunny>& u_ptr = *it;
+            if(!(u_ptr->GetIsInfected())) { u_ptr->SetIsInfected(true); }
+            ++it;
+        }
+        infectedCount = bunnyCount;
+        return;
+    }
+
+    int newInfected = 0;
+    while(newInfected<infectedCount)
+    {
+        if(!((*it)->GetIsInfected()))
+        {
+            (*it)->SetIsInfected(true);
+            newInfected++;
+        }
+        advance(it,1); 
+    }
+    infectedCount+=newInfected;
+}
+
 void Field::IncrementAges()
 { 
     if(initialTurn) { return; }
@@ -153,39 +163,29 @@ void Field::Breed()
     }
 }
 
-void Field::SpreadInfection()
+void Field::PrintBunnies()
 {
+    if(bunnyCount == 0 || initialTurn) { return; }
+    std::cout << "\nList of Bunnies in the field:\n";
+    std::cout << "-----------------------------\n";
+    for(unique_ptr<Bunny>& u_ptr : bunnyList)
+    {
+        string status = (u_ptr->GetIsInfected()) ? "Infected Bunny " : "Bunny ";
+        string name = u_ptr->GetName();
+        int age = u_ptr->GetAge();
+        string sex = _Bunny::SexesMap[u_ptr->GetSex()];
+        string colour = _Bunny::ColoursMap[u_ptr->GetColour()];
+
+        std::cout << status << name << std::setw(16 - name.length()) << " (Age: " << age << ", Sex: " << sex << ", Colour: " << colour << ")\n";
+    }
     if(allInfected)
     {
-        infectedCount = bunnyCount;
-        return;
+        std::cout << "\nAll " << bunnyCount << " Bunnies are infected!\n";
     }
-
-    list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
-    if(infectedCount >= ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2) )
+    else
     {
-        allInfected = true;
-        while(it!=bunnyList.end())
-        {
-            const unique_ptr<Bunny>& u_ptr = *it;
-            if(!(u_ptr->GetIsInfected())) { u_ptr->SetIsInfected(true); }
-            ++it;
-        }
-        infectedCount = bunnyCount;
-        return;
+        std::cout << "\n" << infectedCount << " of " << bunnyCount << " Bunnies are infected.\n";
     }
-
-    int newInfected = 0;
-    while(newInfected<infectedCount)
-    {
-        if(!((*it)->GetIsInfected()))
-        {
-            (*it)->SetIsInfected(true);
-            newInfected++;
-        }
-        advance(it,1); 
-    }
-    infectedCount+=newInfected;
 }
 
 char Field::Advance()

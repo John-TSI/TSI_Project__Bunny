@@ -5,7 +5,6 @@
 #include<memory>
 #include"bunny.hpp"
 
-
 using std::list; using std::unique_ptr; using _Bunny::Bunny;
 
 
@@ -31,12 +30,12 @@ class Field
         void Initialise();
         bool CheckBreedMaleExists();
         void MassCull();
-        void PrintBunnies();
 
         // --- advance ---
+        void SpreadInfection();
         void IncrementAges();
         void Breed();
-        void SpreadInfection();
+        void PrintBunnies();
         char Advance();
 };
 

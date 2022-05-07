@@ -5,13 +5,13 @@ using _Bunny::Bunny;
 
 // --- constructors ---
 Bunny::Bunny() :
-    name(NamesMap[ rand()%(NamesMap.size()) ]), 
+    name(Names[ rand()%(Names.size()) ]),
     sex( Sex(rand()%2) ),
     colour( Colour(rand()%4) ),
     isInfected( (rand()%100 < 2) ? true : false ) {}
-    
+
 Bunny::Bunny(Colour colour) :
-    name(NamesMap[ rand()%(NamesMap.size()) ]), 
+    name(Names[ rand()%(Names.size()) ]), 
     sex( Sex(rand()%2) ),
     colour(colour),
     isInfected( (rand()%100 < 2) ? true : false ) {}

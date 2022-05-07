@@ -1,6 +1,7 @@
 #ifndef BUNNY_HPP
 #define BUNNY_HPP
 
+#include<vector>
 #include<string>
 #include<map>
 
@@ -10,22 +11,13 @@ using std::string;
 namespace _Bunny
 {
     // attribute enums
-    enum Name{ Bopsy, Cuddles, Flopsy, Hoppity, Mittens, Mopsy, Nibbles, Whiskers };
-    enum Sex{ Male, Female };
-    enum Colour{ White, Brown, Black, Spotted };
+    enum Sex{Male, Female};
+    enum Colour{White, Brown, Black, Spotted};
 
-
-    // attribute maps
-    static std::map<int,std::string> NamesMap = 
-        {{Name::Bopsy, "Bopsy"}, {Name::Cuddles, "Cuddles"},
-        {Name::Flopsy, "Flopsy"}, {Name::Hoppity, "Hoppity"}, {Name::Mittens, "Mittens"},
-        {Name::Mopsy, "Mopsy"}, {Name::Nibbles, "Nibbles"}, {Name::Whiskers, "Whiskers"}};
-
+    // attribute vectors / maps
+    static std::vector<string> Names{"Bopsy", "Cuddles", "Flopsy", "Hoppity", "Mittens", "Mopsy", "Nibbles", "Whiskers"};
     static std::map<Sex,std::string> SexesMap = {{Sex::Male, "Male"}, {Sex::Female, "Female"}};
-
-    static std::map<Colour,std::string> ColoursMap = 
-        {{Colour::White, "White"}, {Colour::Brown, "Brown"}, 
-        {Colour::Black, "Black"}, {Colour::Spotted, "Spotted"}};
+    static std::map<Colour,std::string> ColoursMap = {{Colour::White, "White"}, {Colour::Brown, "Brown"}, {Colour::Black, "Black"}, {Colour::Spotted, "Spotted"}};
 
 
     class Bunny
