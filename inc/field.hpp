@@ -32,6 +32,7 @@ class Field
         // --- utility ---
         void Initialise();
         bool CheckBreedMaleExists();
+        void MassCull();
         void PrintBunnies();
 
         // --- advance ---

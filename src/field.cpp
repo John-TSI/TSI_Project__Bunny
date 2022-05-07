@@ -79,6 +79,17 @@ bool Field::CheckBreedMaleExists()
     return false;
 }
 
+void Field::MassCull()
+{
+    int deadCount = ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2 );
+    for (int i = 0; i < deadCount; i++)
+    {
+        list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
+        advance(it, rand() % bunnyList.size());
+        RmBunny(it);
+    }
+}
+
 void Field::PrintBunnies()
 {
     if(bunnyCount == 0 || initialTurn) { return; }
@@ -180,6 +191,12 @@ void Field::SpreadInfection()
 
 char Field::Advance()
 {
+    if(bunnyCount > 1000)
+    { 
+        std::cout << "Maximum sustainable population exceeded, a food shortage occurs.\n";
+        MassCull(); 
+    }
+    
     SpreadInfection();
     IncrementAges();
     Breed();
