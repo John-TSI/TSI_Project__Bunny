@@ -113,7 +113,7 @@ void Field::SpreadInfection()
     infectedCount+=newInfected;
 }
 
-void Field::IncrementAges() // increment Bunny.age, remove from bunnList if too old
+void Field::IncrementAges() // increment Bunny.age, remove from bunnyList if too old
 { 
     if(initialTurn) { return; }
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
@@ -177,15 +177,14 @@ void Field::PrintBunnies() // output info to the User
 
 char Field::Advance() // advance program by one turn, return User input to main()
 {
-    if(bunnyCount > 1000)
-    { 
-        std::cout << "Maximum sustainable population exceeded, a food shortage occurs.\n\n";
-        MassCull(); 
-    }
-    
     SpreadInfection();
     IncrementAges();
     Breed();
+    if(bunnyCount > 1000)
+    { 
+        std::cout << "\nMaximum sustainable population exceeded, a food shortage occurs.\n\n";
+        MassCull(); 
+    }
     PrintBunnies();
 
     initialTurn = false;

@@ -3,7 +3,7 @@
 
 #include<vector>
 #include<string>
-#include<map>
+#include<unordered_map>
 #include<memory>
 
 using std::string; using std::unique_ptr;
@@ -20,8 +20,8 @@ namespace _Bunny
     enum class Colour{White, Brown, Black, Spotted};
 
     // --- attribute maps ---
-    static std::map<Sex,string> SexesMap = {{Sex::Male, "Male"}, {Sex::Female, "Female"}};
-    static std::map<Colour,string> ColoursMap = {{Colour::White, "White"}, {Colour::Brown, "Brown"}, {Colour::Black, "Black"}, {Colour::Spotted, "Spotted"}};
+    static std::unordered_map<Sex,string> SexesMap = {{Sex::Male, "Male"}, {Sex::Female, "Female"}};
+    static std::unordered_map<Colour,string> ColoursMap = {{Colour::White, "White"}, {Colour::Brown, "Brown"}, {Colour::Black, "Black"}, {Colour::Spotted, "Spotted"}};
 
 
     class Bunny
