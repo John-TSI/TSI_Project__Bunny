@@ -9,9 +9,9 @@ int Field::GetBunnyCount() const { return bunnyCount; }
 
 
 // --- add/remove ---
-void Field::AddBunny()
+void Field::AddBunny(const unique_ptr<Bunny>& u_ptr) // add Bunny object to Field attribute bunnyList
 {
-    bunnyList.push_front(std::make_unique<Bunny>());
+    bunnyList.push_front(std::make_unique<Bunny>(u_ptr));
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     if((*it)->GetIsInfected())
     {
@@ -24,23 +24,8 @@ void Field::AddBunny()
     }
     bunnyCount++;
 }
-void Field::AddBunny(_Bunny::Colour colour)
-{
-    bunnyList.push_front(std::make_unique<Bunny>(colour));
-    list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
-    if((*it)->GetIsInfected())
-    {
-        std::cout << "Infected Bunny " << (*it)->GetName() << " was born!\n";
-        infectedCount++;
-    } 
-    else
-    { 
-        std::cout << "Bunny " << (*it)->GetName() << " was born!\n";
-    }
-     bunnyCount++;
-}
 
-void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it)
+void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny object from Field attribute bunnyList
 {
     const unique_ptr<Bunny>& u_ptr = *it;
     if(u_ptr->GetIsInfected())
@@ -58,12 +43,13 @@ void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it)
 
 
 // --- utility ---
-void Field::Initialise()
+void Field::Initialise() // construct initial five Bunny objects
 {
-    for(int i=0; i<initCount; i++) { AddBunny(); }
+    const unique_ptr<Bunny> u_ptr = nullptr;
+    for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
 }
 
-bool Field::CheckBreedMaleExists()
+bool Field::CheckBreedMaleExists() // returns bool for existence of suitable Male to Breed()
 {
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
@@ -78,13 +64,13 @@ bool Field::CheckBreedMaleExists()
     return false;
 }
 
-void Field::MassCull()
+void Field::MassCull() // removes random half of Bunny objects from Field attribute bunnyList
 {
     int deadCount = ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount - 1)/2 );
     for (int i = 0; i < deadCount; i++)
     {
         list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
-        advance(it, rand() % bunnyList.size());
+        advance(it, rand()%bunnyList.size());
         RmBunny(it);
     }
 }
@@ -93,12 +79,13 @@ void Field::MassCull()
 // --- advance ---
 void Field::SpreadInfection()
 {
+    // update infectedCount if all Bunny objects are infected
     if(allInfected)
     {
         infectedCount = bunnyCount;
         return;
     }
-
+    // infect all Bunny objects if at least half of previous turn's population was infected
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     if(infectedCount >= ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2) )
     {
@@ -106,27 +93,27 @@ void Field::SpreadInfection()
         while(it!=bunnyList.end())
         {
             const unique_ptr<Bunny>& u_ptr = *it;
-            if(!(u_ptr->GetIsInfected())) { u_ptr->SetIsInfected(true); }
+            if(!u_ptr->GetIsInfected()) { u_ptr->SetIsInfected(true); }
             ++it;
         }
         infectedCount = bunnyCount;
         return;
     }
-
+    // infect one additional Bunny object for every currently infected
     int newInfected = 0;
     while(newInfected<infectedCount)
     {
-        if(!((*it)->GetIsInfected()))
+        if(!(*it)->GetIsInfected())
         {
             (*it)->SetIsInfected(true);
             newInfected++;
         }
-        advance(it,1); 
+        ++it; 
     }
     infectedCount+=newInfected;
 }
 
-void Field::IncrementAges()
+void Field::IncrementAges() // increment Bunny.age, remove from bunnList if too old
 { 
     if(initialTurn) { return; }
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
@@ -148,7 +135,7 @@ void Field::IncrementAges()
     }
 }
 
-void Field::Breed()
+void Field::Breed() // create one additional Bunny for each suitable Female in the population
 {
     if(!(CheckBreedMaleExists()) || allInfected) { return; }
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
@@ -157,13 +144,13 @@ void Field::Breed()
         const unique_ptr<Bunny>& u_ptr = *it;
         if((u_ptr->GetSex() == _Bunny::Sex::Female) && (u_ptr->GetAge() >= adultAge) && !(u_ptr->GetIsInfected()))
         {
-            AddBunny(u_ptr->GetColour());
+            AddBunny(u_ptr);
         }
         ++it;
     }
 }
 
-void Field::PrintBunnies()
+void Field::PrintBunnies() // output info to the User
 {
     if(bunnyCount == 0 || initialTurn) { return; }
     std::cout << "\nList of Bunnies in the field:\n";
@@ -188,7 +175,7 @@ void Field::PrintBunnies()
     }
 }
 
-char Field::Advance()
+char Field::Advance() // advance program by one turn, return User input to main()
 {
     if(bunnyCount > 1000)
     { 
@@ -202,7 +189,7 @@ char Field::Advance()
     PrintBunnies();
 
     initialTurn = false;
-    char input = 'z';
+    char input = 'b';
     std::cout << "\nPress any key to advance (q to quit):\n> ";
     std::cin >> input;
     std::cout << "\n";

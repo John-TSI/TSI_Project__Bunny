@@ -2,7 +2,6 @@
 #define FIELD_HPP
 
 #include<list>
-#include<memory>
 #include"bunny.hpp"
 
 using std::list; using std::unique_ptr; using _Bunny::Bunny;
@@ -22,8 +21,7 @@ class Field
         int GetBunnyCount() const;
 
         // --- add/remove ---
-        void AddBunny();
-        void AddBunny(_Bunny::Colour);
+        void AddBunny(const unique_ptr<Bunny>&);
         void RmBunny(list<unique_ptr<Bunny>>::iterator&);
 
         // --- utility ---

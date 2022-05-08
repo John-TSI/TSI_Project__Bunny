@@ -5,11 +5,11 @@
 
 int main()
 {   
-    srand(time(NULL)); 
+    srand(time(NULL)); // seed rand()
     Field F;
     F.Initialise();
 
-    char input = 'z';
+    char input = 'b';
     while(input != 'q' && F.GetBunnyCount() > 0)
     {
         input = F.Advance();

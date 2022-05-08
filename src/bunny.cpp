@@ -3,28 +3,22 @@
 using _Bunny::Bunny;
 
 
-// --- constructors ---
-Bunny::Bunny() :
-    name(Names[ rand()%(Names.size()) ]),
+// --- constructor ---
+Bunny::Bunny(const unique_ptr<Bunny>& u_ptr) :
     sex( Sex(rand()%2) ),
-    colour( Colour(rand()%4) ),
-    isInfected( (rand()%100 < 2) ? true : false ) {}
-
-Bunny::Bunny(Colour colour) :
-    name(Names[ rand()%(Names.size()) ]), 
-    sex( Sex(rand()%2) ),
-    colour(colour),
-    isInfected( (rand()%100 < 2) ? true : false ) {}
+    // u_ptr will either point to a Female Bunny object, or be nullptr
+    colour( !u_ptr ? Colour(rand()%4) : u_ptr->GetColour() ),
+    isInfected( rand()%100 < 2 ? true : false )
+{
+    name = ((int)sex) ? FemaleNames[ rand()%(FemaleNames.size()) ] : MaleNames[ rand()%(MaleNames.size()) ]; 
+}
 
 
 // --- getters/setters ---
 string Bunny::GetName() const { return name; }
-void Bunny::SetName(string input) { name = input; }
 int Bunny::GetAge() const { return age; }
 void Bunny::SetAge(int input) { age = input; }
 _Bunny::Sex Bunny::GetSex() const { return sex; }
-void Bunny::SetSex(Sex input) { sex = input; }
 _Bunny::Colour Bunny::GetColour() const { return colour; }
-void Bunny::SetColour(Colour input) { colour = input; }
 bool Bunny::GetIsInfected() const { return isInfected; }
 void Bunny::SetIsInfected(bool input) { isInfected = input; }

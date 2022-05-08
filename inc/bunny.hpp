@@ -4,20 +4,24 @@
 #include<vector>
 #include<string>
 #include<map>
+#include<memory>
 
-using std::string;
+using std::string; using std::unique_ptr;
 
 
 namespace _Bunny
 {
-    // attribute enums
-    enum Sex{Male, Female};
-    enum Colour{White, Brown, Black, Spotted};
+    // --- name vectors ---
+    static std::vector<string> MaleNames{"Adam", "Bob", "Carl", "Dave", "Evan", "Fred", "Gary", "Harry"};
+    static std::vector<string> FemaleNames{"Anna", "Beth", "Chloe", "Daisy", "Emily", "Faye", "Gemma", "Helen"};
 
-    // attribute vectors / maps
-    static std::vector<string> Names{"Bopsy", "Cuddles", "Flopsy", "Hoppity", "Mittens", "Mopsy", "Nibbles", "Whiskers"};
-    static std::map<Sex,std::string> SexesMap = {{Sex::Male, "Male"}, {Sex::Female, "Female"}};
-    static std::map<Colour,std::string> ColoursMap = {{Colour::White, "White"}, {Colour::Brown, "Brown"}, {Colour::Black, "Black"}, {Colour::Spotted, "Spotted"}};
+    // --- attribute enums ---
+    enum class Sex{Male, Female};
+    enum class Colour{White, Brown, Black, Spotted};
+
+    // --- attribute maps ---
+    static std::map<Sex,string> SexesMap = {{Sex::Male, "Male"}, {Sex::Female, "Female"}};
+    static std::map<Colour,string> ColoursMap = {{Colour::White, "White"}, {Colour::Brown, "Brown"}, {Colour::Black, "Black"}, {Colour::Spotted, "Spotted"}};
 
 
     class Bunny
@@ -29,19 +33,15 @@ namespace _Bunny
         bool isInfected = false;
 
         public:
-            // --- constructors ---
-            Bunny();
-            explicit Bunny(Colour);  // initialise using mother's colour
+            // --- constructor ---
+            explicit Bunny(const unique_ptr<Bunny>&);
 
             // ---getters/setters ---
             string GetName() const;
-            void SetName(string);
             int GetAge() const;
             void SetAge(int);
             Sex GetSex() const;
-            void SetSex(Sex);
             Colour GetColour() const;
-            void SetColour(Colour);
             bool GetIsInfected() const;
             void SetIsInfected(bool);
     };
