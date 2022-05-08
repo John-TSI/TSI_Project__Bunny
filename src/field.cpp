@@ -113,7 +113,7 @@ void Field::SpreadInfection()
     infectedCount+=newInfected;
 }
 
-void Field::IncrementAges() // increment Bunny.age, remove from bunnList if too old
+void Field::IncrementAges() // increment Bunny.age, remove from bunnyList if too old
 { 
     if(initialTurn) { return; }
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
