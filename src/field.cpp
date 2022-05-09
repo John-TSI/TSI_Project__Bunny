@@ -1,7 +1,8 @@
 #include<iostream>
-#include<iomanip>
-#include<limits>
-#include<algorithm>
+#include<iomanip> // setw()
+#include<limits> // std::numeric_limits<std::streamsize>::max()
+#include<chrono> // std::chrono::milliseconds()
+#include<thread> // std::this_thread::sleep_for()
 #include"../inc/field.hpp"
 
 
@@ -100,6 +101,7 @@ void Field::Initialise() // construct initial Bunnies, set population limit, set
             {
                 realTime = true;
                 std::cout<< "\nThe program will advance in real-time.\n";
+                std::cout << "At any point: press k to initiate a mass cull, or q to quit.\n";
                 break;
             }
             default:
@@ -214,7 +216,7 @@ void Field::Breed() // create one additional Bunny for each suitable Female in t
 
 void Field::PrintBunnies() // output info to the User
 {
-    if(initialTurn) { return; }
+    if(initialTurn || bunnyCount == 0) { return; }
     std::cout << "\nList of Bunnies in the field:\n";
     std::cout << "-----------------------------\n";
     for(unique_ptr<Bunny>& u_ptr : bunnyList)
