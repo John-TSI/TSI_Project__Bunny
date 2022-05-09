@@ -18,12 +18,17 @@ Program Structure:
 ------------------  
 The program is comprised of a source file containing the program entry point, and two classes each separated into their own header and source files. 
   
-The bunny header file contains the required attribute members of the bunny class, together with declarations of a constructor and getter/setter methods. This file also contains definitions of some vectors and enum classes used during object construction, and unordered maps that are used to print output to the user. The Field class acts as the program's manager, and is responsible for storing, manipulating, and modifying bunny objects, in addition to controlling the program flow. The main source file simply consists of a while loop, which makes repeated calls to the Advance() method of the Field class so long as at least one bunny is alive and the user has not requested that the program terminates.  
+The bunny header file contains the required attribute members of the Bunny class, together with declarations of a constructor and getter/setter methods. This file also contains definitions of some vectors and enum classes used during object construction, and unordered maps that are used to print output to the user. The Field class acts as the program's manager, and is responsible for storing, manipulating, and modifying bunny objects, in addition to controlling the program flow. The main source file simply consists of a while loop, which makes repeated calls to the Advance() method of the Field class so long as at least one bunny is alive and the user has not requested that the program terminates.  
   
 --------------------------------------------------------------------  
   
 Design Notes:  
 -------------  
+- The Field class contains a standard container list attribute which stores unique pointers to bunny objects, and this list is operated upon by Field methods using iterators.  
+- The Bunny class originally had an overloaded constructor: a default version called on program initialisation, and a copy which accepted a unique pointer to a bunny object by reference. This design was later modified so that the class requires only a single non-default constructor with an initialisation list, and where the 'colour' attribute is assigned a value based on whether or not the passed pointer points to a bunny object.   
+
+Development Notes:  
+------------------  
 Development of the program included the use of separate feature branches to implement new functionality:  
   
 - branch 'MakeInfected' was used to develop and test the 'SpreadInfection' method of class Field.  
