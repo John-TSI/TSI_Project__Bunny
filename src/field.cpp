@@ -1,4 +1,5 @@
 #include<iostream>
+#include<time.h>
 #include<iomanip> // setw()
 #include<limits> // std::numeric_limits<std::streamsize>::max()
 #include"../inc/field.hpp"
@@ -45,7 +46,7 @@ void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny objec
 // --- utility ---
 void Field::Initialise() // construct initial five Bunny objects, set population limit
 {
-    std::cout << "\n";
+    srand(time(NULL)); // seed rand()
     const unique_ptr<Bunny> u_ptr = nullptr;
     for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
 

@@ -1,11 +1,8 @@
 #include<iostream>
-#include<time.h>
 #include"../inc/field.hpp"
-
 
 int main()
 {   
-    srand(time(NULL)); // seed rand()
     Field F;
     F.Initialise();
 
@@ -15,6 +12,6 @@ int main()
         input = F.Advance();
     }
     std::cout<< "All Bunnies have died.";
-
+    
     return 0;
 }
