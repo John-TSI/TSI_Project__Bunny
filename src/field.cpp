@@ -44,12 +44,13 @@ void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny objec
 
 
 // --- utility ---
-void Field::Initialise() // construct initial five Bunny objects, set population limit
+void Field::Initialise() // construct initial Bunnies, set population limit, set execution type
 {
     std::cout << "\n";
     const unique_ptr<Bunny> u_ptr = nullptr;
     for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
 
+    // set population limit
     char input = 'b';
     while(input == 'b')
     {
@@ -69,6 +70,36 @@ void Field::Initialise() // construct initial five Bunny objects, set population
             {
                 populationLimited = false;
                 std::cout<< "\nMaximum population limit has been removed.\n";
+                break;
+            }
+            default:
+            {
+                input = 'b';
+                std::cout << "Invalid input, review the input options and try again.\n";
+            }
+        }
+    }
+
+    // set execution type (real-time, or require user input to advance)
+    input = 'b';
+    while(input == 'b')
+    {
+        std::cout << "\nExecute the program in real-time? (y/n):\n> ";
+        std::cin >> input;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        switch(input)
+        {
+            case 'n':
+            case 'N':
+            {
+                std::cout<< "\nThe program will advance upon receiving user input.\n";
+                break;
+            }
+            case 'y':
+            case 'Y':
+            {
+                realTime = true;
+                std::cout<< "\nThe program will advance in real-time.\n";
                 break;
             }
             default:
