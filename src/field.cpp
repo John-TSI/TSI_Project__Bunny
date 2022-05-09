@@ -47,6 +47,29 @@ void Field::Initialise() // construct initial five Bunny objects
 {
     const unique_ptr<Bunny> u_ptr = nullptr;
     for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
+
+    std::cout << "\nRemove the maximum population limit of 1000? (y/n):\n> ";
+    char input = 'b';
+    std::cin >> input;
+    switch(input)
+    {
+        case 'n':
+        case 'N':
+        {
+            std::cout<< "\nMaximum population limit has retained its default value.\n";
+            break;
+        }
+        case 'y':
+        case 'Y':
+        {
+            std::cout<< "\nMaximum population limit has been removed.\n";
+            break;
+        }
+        default:
+        {
+            std::cout << "\nInvalid input, review the input options and try again.\n";
+        }
+    }
 }
 
 bool Field::CheckBreedMaleExists() // returns bool for existence of suitable Male to Breed()
