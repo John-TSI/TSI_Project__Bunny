@@ -152,7 +152,7 @@ void Field::Breed() // create one additional Bunny for each suitable Female in t
 
 void Field::PrintBunnies() // output info to the User
 {
-    if(bunnyCount == initCount || initialTurn) { return; }
+    if(initialTurn) { return; }
     std::cout << "\nList of Bunnies in the field:\n";
     std::cout << "-----------------------------\n";
     for(unique_ptr<Bunny>& u_ptr : bunnyList)
@@ -189,8 +189,16 @@ char Field::Advance() // advance program by one turn, return User input to main(
 
     initialTurn = false;
     char input = 'b';
-    std::cout << "\nPress any key to advance (q to quit):\n> ";
+    std::cout << "\nPress k to initiate a mass cull, or any other key to advance (q to quit):\n> ";
     std::cin >> input;
     std::cout << "\n";
+    while(input == 'k')
+    {
+        MassCull();
+        std::cout << "\nPopulation has been culled!\n\n";
+        std::cout << "\nPress k to initiate another mass cull, or any other key to advance (q to quit):\n> ";
+        std::cin >> input;
+        std::cout << "\n";
+    }
     return input;
 }
