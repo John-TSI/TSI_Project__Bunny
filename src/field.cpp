@@ -241,28 +241,31 @@ void Field::PrintBunnies() // output info to the User
 
 char Field::Advance() // advance program by one turn, return User input to main()
 {
-    SpreadInfection();
-    IncrementAges();
-    Breed();
-    if(bunnyCount > maxCount && populationLimited)
-    { 
-        std::cout << "\nMaximum sustainable population exceeded, a food shortage occurs.\n\n";
-        MassCull(); 
-    }
-    PrintBunnies();
+//    if(!realTime)
+//    {
+        SpreadInfection();
+        IncrementAges();
+        Breed();
+        if(bunnyCount > maxCount && populationLimited)
+        { 
+            std::cout << "\nMaximum sustainable population exceeded, a food shortage occurs.\n\n";
+            MassCull(); 
+        }
+        PrintBunnies();
 
-    initialTurn = false;
-    char input = 'b';
-    std::cout << "\nPress k to initiate a mass cull, or any other key to advance (q to quit):\n> ";
-    std::cin >> input;
-    std::cout << "\n";
-    while(input == 'k')
-    {
-        MassCull();
-        std::cout << "\nPopulation has been culled!\n\n";
-        std::cout << "\nPress k to initiate another mass cull, or any other key to advance (q to quit):\n> ";
+        initialTurn = false;
+         char input = 'b';
+        std::cout << "\nPress k to initiate a mass cull, or any other key to advance (q to quit):\n> ";
         std::cin >> input;
         std::cout << "\n";
-    }
-    return input;
+        while(input == 'k')
+        {
+            MassCull();
+            std::cout << "\nPopulation has been culled!\n";
+            std::cout << "\nPress k to initiate another mass cull, or any other key to advance (q to quit):\n> ";
+            std::cin >> input;
+            std::cout << "\n";
+        } 
+        return input;
+//    }
 }

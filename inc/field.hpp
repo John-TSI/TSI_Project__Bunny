@@ -11,6 +11,7 @@ class Field
 {
     private:
         static const int initCount = 5, maxCount = 1000;
+        const int millisecondsPause = 1000;
         static const int adultAge = 2, lifespan = 10, infectedLifespan = 49;
         int bunnyCount = 0, infectedCount = 0;
         bool initialTurn = true, adultMaleExists = false, allInfected = false, populationLimited = true, realTime = false;

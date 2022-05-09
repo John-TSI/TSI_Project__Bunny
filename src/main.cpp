@@ -14,7 +14,7 @@ int main()
     {
         input = F.Advance();
     }
-    std::cout<< "All Bunnies have died.";
+    std::cout<< "All Bunnies have died.\n";
 
     return 0;
 }
