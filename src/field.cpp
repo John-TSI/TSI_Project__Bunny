@@ -66,7 +66,7 @@ bool Field::CheckBreedMaleExists() // returns bool for existence of suitable Mal
 
 void Field::MassCull() // removes random half of Bunny objects from Field attribute bunnyList
 {
-    int deadCount = ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount - 1)/2 );
+    int deadCount = ( (bunnyCount%2 == 0) ? (bunnyCount/2) : (bunnyCount + 1)/2 );
     for (int i = 0; i < deadCount; i++)
     {
         list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
