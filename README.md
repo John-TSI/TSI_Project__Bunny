@@ -28,6 +28,7 @@ GOALS:
 ⦁	When all of the bunnies have died the program should terminate.  
   
 EXTRAS:  
+⦁	Remove the population limit and see how many bunnies your program can handle.   
 ⦁	Allow the user to hit the 'k' key to initiate a mass rabbit cull, which causes half of the bunny population to be killed (randomly chosen).
 
   
@@ -38,6 +39,7 @@ Development of the program included the use of separate feature branches to impl
 - branch 'MakeInfected' was used to develop and test the 'SpreadInfection' method of class Field.  
 - branch 'FoodShortage' was used to develop and test the 'MassCull' method of class Field.  
 - branch 'InputCull' was used to develop and test the extra feature which allows the user to initiate a population cull with a key input.  
+- branch 'NoMaxCount' was used to develop and test the extra feature which allows the user to remove the maximum population limit.  
   
 These feature branches were each merged with the main development branch once their respective additional functionalities had been tested. 
 
