@@ -31,11 +31,11 @@ Design Notes:
   
 Development Notes:  
 ------------------  
-Development of the program included the use of separate feature branches to implement new functionality:  
+Development of the program included the creation of separate feature branches to implement additional functionality beyond the project's minimum requirements:  
   
 - branch 'MakeInfected' was used to develop and test the 'SpreadInfection' method of class Field.  
 - branch 'FoodShortage' was used to develop and test the 'MassCull' method of class Field.  
-- branch 'InputCull' was used to develop and test the extra feature which allows the user to initiate a population cull with a key input.  
+- branch 'InputCull' was used to develop and test the extra feature which allows the user to manually initiate a population cull with a key input.  
 - branch 'NoMaxCount' was used to develop and test the extra feature which allows the user to remove the maximum population limit.  
   
-These feature branches were each merged with the main development branch once their respective additional functionalities had been tested. 
+These feature branches were each merged with the main development branch once their respective functionalities had been tested. Another feature branch, 'Real-Time', was created to develop the additional functionality which would allow the program to print updates to the user in real-time. Work towards the implementation of this feature is ongoing, and hence this branch has not yet been merged with the main developement branch.
