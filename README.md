@@ -27,11 +27,18 @@ GOALS:
 ⦁	If the bunny population exceeds 1000 a food shortage must occur, killing exactly half of the bunnies (randomly chosen).  
 ⦁	When all of the bunnies have died the program should terminate.  
   
+EXTRAS:
+⦁	Allow the user to hit the 'k' key to initiate a mass rabbit cull, which causes half of the bunny population to be killed (randomly chosen).
+
+  
 --------------------------------------------------------------------------------  
   
 Development of the program included the use of separate feature branches to implement new functionality:  
+  
 - branch 'MakeInfected' was used to develop and test the 'SpreadInfection' method of class Field.  
 - branch 'FoodShortage' was used to develop and test the 'MassCull' method of class Field.  
+- branch 'InputCull' was used to develop and test the extra feature which allows the user to initiate a population cull with a key input.  
+  
 These feature branches were each merged with the main development branch once their respective additional functionalities had been tested. 
 
 
