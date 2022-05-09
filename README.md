@@ -27,7 +27,7 @@ GOALS:
 ⦁	If the bunny population exceeds 1000 a food shortage must occur, killing exactly half of the bunnies (randomly chosen).  
 ⦁	When all of the bunnies have died the program should terminate.  
   
-EXTRAS:
+EXTRAS:  
 ⦁	Allow the user to hit the 'k' key to initiate a mass rabbit cull, which causes half of the bunny population to be killed (randomly chosen).
 
   
