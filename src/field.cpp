@@ -1,7 +1,6 @@
 #include<iostream>
-#include<iomanip>
-#include<limits>
-#include<algorithm>
+#include<iomanip> // setw()
+#include<limits> // std::numeric_limits<std::streamsize>::max()
 #include"../inc/field.hpp"
 
 
@@ -50,6 +49,7 @@ void Field::Initialise() // construct initial five Bunny objects, set population
     const unique_ptr<Bunny> u_ptr = nullptr;
     for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
 
+    // set population limit
     char input = 'b';
     while(input == 'b')
     {
@@ -183,7 +183,7 @@ void Field::Breed() // create one additional Bunny for each suitable Female in t
 
 void Field::PrintBunnies() // output info to the User
 {
-    if(initialTurn) { return; }
+    if(initialTurn || bunnyCount == 0) { return; }
     std::cout << "\nList of Bunnies in the field:\n";
     std::cout << "-----------------------------\n";
     for(unique_ptr<Bunny>& u_ptr : bunnyList)
