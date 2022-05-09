@@ -1,5 +1,6 @@
 #include<iostream>
 #include<iomanip>
+#include<limits>
 #include<algorithm>
 #include"../inc/field.hpp"
 
@@ -43,31 +44,38 @@ void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny objec
 
 
 // --- utility ---
-void Field::Initialise() // construct initial five Bunny objects
+void Field::Initialise() // construct initial five Bunny objects, set population limit
 {
+    std::cout << "\n";
     const unique_ptr<Bunny> u_ptr = nullptr;
     for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
 
-    std::cout << "\nRemove the maximum population limit of 1000? (y/n):\n> ";
     char input = 'b';
-    std::cin >> input;
-    switch(input)
+    while(input == 'b')
     {
-        case 'n':
-        case 'N':
+        std::cout << "\nRemove the maximum population limit of 1000? (y/n):\n> ";
+        std::cin >> input;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        switch(input)
         {
-            std::cout<< "\nMaximum population limit has retained its default value.\n";
-            break;
-        }
-        case 'y':
-        case 'Y':
-        {
-            std::cout<< "\nMaximum population limit has been removed.\n";
-            break;
-        }
-        default:
-        {
-            std::cout << "\nInvalid input, review the input options and try again.\n";
+            case 'n':
+            case 'N':
+            {
+                std::cout<< "\nMaximum population limit has retained its default value.\n";
+                break;
+            }
+            case 'y':
+            case 'Y':
+            {
+                populationLimited = false;
+                std::cout<< "\nMaximum population limit has been removed.\n";
+                break;
+            }
+            default:
+            {
+                input = 'b';
+                std::cout << "Invalid input, review the input options and try again.\n";
+            }
         }
     }
 }
@@ -203,7 +211,7 @@ char Field::Advance() // advance program by one turn, return User input to main(
     SpreadInfection();
     IncrementAges();
     Breed();
-    if(bunnyCount > maxCount)
+    if(bunnyCount > maxCount && populationLimited)
     { 
         std::cout << "\nMaximum sustainable population exceeded, a food shortage occurs.\n\n";
         MassCull(); 
