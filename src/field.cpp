@@ -152,7 +152,7 @@ void Field::Breed() // create one additional Bunny for each suitable Female in t
 
 void Field::PrintBunnies() // output info to the User
 {
-    if(bunnyCount == 0 || initialTurn) { return; }
+    if(bunnyCount == initCount || initialTurn) { return; }
     std::cout << "\nList of Bunnies in the field:\n";
     std::cout << "-----------------------------\n";
     for(unique_ptr<Bunny>& u_ptr : bunnyList)
@@ -180,7 +180,7 @@ char Field::Advance() // advance program by one turn, return User input to main(
     SpreadInfection();
     IncrementAges();
     Breed();
-    if(bunnyCount > 1000)
+    if(bunnyCount > maxCount)
     { 
         std::cout << "\nMaximum sustainable population exceeded, a food shortage occurs.\n\n";
         MassCull(); 

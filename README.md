@@ -29,7 +29,11 @@ GOALS:
   
 --------------------------------------------------------------------------------  
   
-Development of the program included the use of two separate feature branches to implement new functionality:  
+Development of the program included the use of separate feature branches to implement new functionality:  
 - branch 'MakeInfected' was used to develop and test the 'SpreadInfection' method of class Field.  
 - branch 'FoodShortage' was used to develop and test the 'MassCull' method of class Field.  
 These feature branches were each merged with the main development branch once their respective additional functionalities had been tested. 
+
+
+Notes:
+- class 'Field' acts as the program's manager class, and is responsible for storing, manipulating, and modifying all Bunny objects.
