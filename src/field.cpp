@@ -5,6 +5,44 @@
 #include"../inc/field.hpp"
 
 
+// --- constructor ---
+Field::Field() // construct initial five Bunny objects, set population limit
+{
+    srand(time(NULL)); // seed rand()
+    const unique_ptr<Bunny> u_ptr = nullptr;
+    for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
+
+    // set population limit
+    char input = 'b';
+    while(input == 'b')
+    {
+        std::cout << "\nRemove the maximum population limit of 1000? (y/n):\n> ";
+        std::cin >> input;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        switch(input)
+        {
+            case 'n':
+            case 'N':
+            {
+                std::cout<< "\nMaximum population limit has retained its default value.\n";
+                break;
+            }
+            case 'y':
+            case 'Y':
+            {
+                populationLimited = false;
+                std::cout<< "\nMaximum population limit has been removed.\n";
+                break;
+            }
+            default:
+            {
+                input = 'b';
+                std::cout << "Invalid input, review the input options and try again.\n";
+            }
+        }
+    }
+}
+
 // --- getters/setters ---
 int Field::GetBunnyCount() const { return bunnyCount; }
 
@@ -44,43 +82,6 @@ void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny objec
 
 
 // --- utility ---
-void Field::Initialise() // construct initial five Bunny objects, set population limit
-{
-    srand(time(NULL)); // seed rand()
-    const unique_ptr<Bunny> u_ptr = nullptr;
-    for(int i=0; i<initCount; i++) { AddBunny(u_ptr); }
-
-    // set population limit
-    char input = 'b';
-    while(input == 'b')
-    {
-        std::cout << "\nRemove the maximum population limit of 1000? (y/n):\n> ";
-        std::cin >> input;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        switch(input)
-        {
-            case 'n':
-            case 'N':
-            {
-                std::cout<< "\nMaximum population limit has retained its default value.\n";
-                break;
-            }
-            case 'y':
-            case 'Y':
-            {
-                populationLimited = false;
-                std::cout<< "\nMaximum population limit has been removed.\n";
-                break;
-            }
-            default:
-            {
-                input = 'b';
-                std::cout << "Invalid input, review the input options and try again.\n";
-            }
-        }
-    }
-}
-
 bool Field::CheckBreedMaleExists() // returns bool for existence of suitable Male to Breed()
 {
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();

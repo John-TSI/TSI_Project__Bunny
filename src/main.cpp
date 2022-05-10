@@ -4,7 +4,6 @@
 int main()
 {   
     Field F;
-    F.Initialise();
 
     char input = 'b';
     while(input != 'q' && F.GetBunnyCount() > 0)

@@ -17,6 +17,9 @@ class Field
         list<unique_ptr<Bunny>> bunnyList = {};
 
     public:
+        // --- constructor ---
+        Field();
+        
         // --- getters/setters ---
         int GetBunnyCount() const;
 
@@ -25,7 +28,6 @@ class Field
         void RmBunny(list<unique_ptr<Bunny>>::iterator&);
 
         // --- utility ---
-        void Initialise();
         bool CheckBreedMaleExists();
         void MassCull();
 

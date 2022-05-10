@@ -25,7 +25,7 @@ The bunny header file contains the attribute members of the Bunny class, togethe
 Design Notes:  
 -------------  
 - The Field class contains a standard container list attribute which stores unique pointers to bunny objects, and this list is operated upon by Field methods using iterators. This design was deemed convenient for the repeated add/remove operations necessary during program execution, in addition to ensuring that borrowed heap memory is properly deallocated. 
-- The Bunny class originally had two constructors: a default constructor called from the Field method Initialise(), and a version which accepted a unique pointer to a bunny object by reference. This design was later modified so that the class requires only a single non-default constructor making use of an initialisation list, in which the 'colour' attribute is assigned a value determined by whether the unique pointer passed by reference as the constructor's argument points to a valid bunny object.  
+- The Bunny class originally had two constructors: a default constructor called when creating the initial five bunny objects, and a version which accepted a unique pointer to a bunny object by reference. This design was later modified so that the class requires only a single non-default constructor making use of an initialisation list, in which the 'colour' attribute is assigned a value determined by whether the unique pointer passed by reference as the constructor's argument points to a valid bunny object.  
   
 --------------------------------------------------------------------  
   
