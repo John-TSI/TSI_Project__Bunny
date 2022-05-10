@@ -43,6 +43,7 @@ Field::Field() // construct initial five Bunny objects, set population limit
     }
 }
 
+
 // --- getters/setters ---
 int Field::GetBunnyCount() const { return bunnyCount; }
 
