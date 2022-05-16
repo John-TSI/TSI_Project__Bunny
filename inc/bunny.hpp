@@ -28,8 +28,8 @@ namespace _Bunny
     {
         string name = "";
         int age = 0;
-        Sex sex;
-        Colour colour;
+        Sex sex{};
+        Colour colour{};
         bool isInfected = false;
 
         public:

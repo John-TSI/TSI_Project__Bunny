@@ -22,14 +22,15 @@ class Field
         
         // --- getters/setters ---
         int GetBunnyCount() const;
+        void SetPopulationLimit();
 
         // --- add/remove ---
         void AddBunny(const unique_ptr<Bunny>&);
         void RmBunny(list<unique_ptr<Bunny>>::iterator&);
 
         // --- utility ---
-        bool CheckBreedMaleExists();
-        void MassCull();
+        bool BreedMaleExists();
+        void MassCull(const bool);
 
         // --- advance ---
         void SpreadInfection();
