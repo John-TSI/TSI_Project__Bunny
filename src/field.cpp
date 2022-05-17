@@ -16,9 +16,36 @@ Field::Field() // construct initial five Bunny objects, set population limit
 }
 
 
-// --- getters/setters ---
-int Field::GetBunnyCount() const { return bunnyCount; }
-void Field::SetPopulationLimit()
+// --- add/remove ---
+void Field::AddBunny(const unique_ptr<Bunny>& u_ptr) // add Bunny object to Field attribute bunnyList
+{
+    bunnyList.push_front(std::make_unique<Bunny>(u_ptr));
+    list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
+    if( (*it)->GetIsInfected() )
+    {
+        std::cout << "Infected Bunny " << (*it)->GetName() << " was born!\n";
+        infectedCount++;
+    } 
+    else { std::cout << "Bunny " << (*it)->GetName() << " was born!\n"; }
+    bunnyCount++;
+}
+
+void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny object from Field attribute bunnyList
+{
+    const unique_ptr<Bunny>& u_ptr = *it;
+    if(u_ptr->GetIsInfected())
+    {
+        std::cout << "Infected Bunny " << u_ptr->GetName() << " died!\n";
+        infectedCount--;
+    } 
+    else { std::cout << "Bunny " << u_ptr->GetName() << " died!\n"; }
+    bunnyList.erase(it++); // erase item pointed to by it, then advance iterator
+    bunnyCount--;
+}
+
+
+// --- utility ---
+void Field::SetPopulationLimit() // user may optionally remove population limit
 {
     char input = 'b';
     while(input == 'b')
@@ -50,36 +77,6 @@ void Field::SetPopulationLimit()
     }
 }
 
-
-// --- add/remove ---
-void Field::AddBunny(const unique_ptr<Bunny>& u_ptr) // add Bunny object to Field attribute bunnyList
-{
-    bunnyList.push_front(std::make_unique<Bunny>(u_ptr));
-    list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
-    if( (*it)->GetIsInfected() )
-    {
-        std::cout << "Infected Bunny " << (*it)->GetName() << " was born!\n";
-        infectedCount++;
-    } 
-    else { std::cout << "Bunny " << (*it)->GetName() << " was born!\n"; }
-    bunnyCount++;
-}
-
-void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny object from Field attribute bunnyList
-{
-    const unique_ptr<Bunny>& u_ptr = *it;
-    if(u_ptr->GetIsInfected())
-    {
-        std::cout << "Infected Bunny " << u_ptr->GetName() << " died!\n";
-        infectedCount--;
-    } 
-    else { std::cout << "Bunny " << u_ptr->GetName() << " died!\n"; }
-    bunnyList.erase(it++); // erase item pointed to by it, then advance iterator
-    bunnyCount--;
-}
-
-
-// --- utility ---
 bool Field::BreedMaleExists() // returns bool for existence of suitable Male to Breed()
 {
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
@@ -129,6 +126,16 @@ void Field::MassCull(const bool foodShortage) // removes random half of Bunny ob
     }
 }
 
+bool Field::Terminate()
+{
+    if(GetUserInput() == 'q' || bunnyCount == 0)
+    {
+        std::cout<< "All Bunnies have died.";
+        return true;
+    }
+    else{ return false; }
+}
+
 
 // --- advance ---
 void Field::SpreadInfection()
@@ -169,7 +176,7 @@ void Field::SpreadInfection()
     infectedCount+=newInfected;
 }
 
-void Field::IncrementAges() // increment Bunny.age, remove from bunnyList if too old
+void Field::IncrementAges()
 { 
     if(initialTurn) { return; }
 
@@ -181,7 +188,7 @@ void Field::IncrementAges() // increment Bunny.age, remove from bunnyList if too
     }
 }
 
-void Field::KillOld()
+void Field::KillOld() // remove Bunny from bunnyList if too old
 {
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
@@ -239,7 +246,7 @@ void Field::PrintBunnies() // output info to the User
     : std::cout << "\n" << infectedCount << " of " << bunnyCount << " Bunnies are infected.\n";
 }
 
-char Field::Advance() // advance program by one turn, return User input to main()
+void Field::Advance() // advance program by one turn
 {
     SpreadInfection();
     IncrementAges();
@@ -247,8 +254,5 @@ char Field::Advance() // advance program by one turn, return User input to main(
     Breed();
     if(bunnyCount > maxCount && populationLimited) { MassCull(true); }
     PrintBunnies();
-
     initialTurn = false; // Bunny ages will now increment each turn
-
-    return GetUserInput();
 }
