@@ -56,15 +56,12 @@ void Field::AddBunny(const unique_ptr<Bunny>& u_ptr) // add Bunny object to Fiel
 {
     bunnyList.push_front(std::make_unique<Bunny>(u_ptr));
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
-    if((*it)->GetIsInfected())
+    if( (*it)->GetIsInfected() )
     {
         std::cout << "Infected Bunny " << (*it)->GetName() << " was born!\n";
         infectedCount++;
     } 
-    else
-    { 
-        std::cout << "Bunny " << (*it)->GetName() << " was born!\n";
-    }
+    else { std::cout << "Bunny " << (*it)->GetName() << " was born!\n"; }
     bunnyCount++;
 }
 
@@ -76,11 +73,8 @@ void Field::RmBunny(list<unique_ptr<Bunny>>::iterator& it) // remove Bunny objec
         std::cout << "Infected Bunny " << u_ptr->GetName() << " died!\n";
         infectedCount--;
     } 
-    else
-    { 
-        std::cout << "Bunny " << u_ptr->GetName() << " died!\n";
-    }
-    bunnyList.erase(it++); // erase item pointed by it, then advance iterator
+    else { std::cout << "Bunny " << u_ptr->GetName() << " died!\n"; }
+    bunnyList.erase(it++); // erase item pointed to by it, then advance iterator
     bunnyCount--;
 }
 
@@ -92,13 +86,32 @@ bool Field::BreedMaleExists() // returns bool for existence of suitable Male to 
     while(it!=bunnyList.end())
     {
         const unique_ptr<Bunny>& u_ptr = *it;
-        if((u_ptr->GetSex() == _Bunny::Sex::Male) && (u_ptr->GetAge() >= adultAge) && !(u_ptr->GetIsInfected()) )
-        { 
-            return true; 
-        }
+        if
+        ( 
+            (u_ptr->GetSex() == _Bunny::Sex::Male) && 
+            (u_ptr->GetAge() >= adultAge) && 
+            !(u_ptr->GetIsInfected()) 
+        ) 
+        { return true; }
         ++it;
     } 
     return false;
+}
+
+char Field::GetUserInput()
+{
+    char input = 'b';
+    std::cout << "\nPress k to initiate a mass cull, or any other key to advance (q to quit):\n> ";
+    std::cin >> input;
+    std::cout << "\n";
+    while(input == 'k')
+    {
+        MassCull(false);
+        std::cout << "\nPress k to initiate another mass cull, or any other key to advance (q to quit):\n> ";
+        std::cin >> input;
+        std::cout << "\n";
+    }
+    return input;
 }
 
 void Field::MassCull(const bool foodShortage) // removes random half of Bunny objects from Field attribute bunnyList
@@ -146,7 +159,7 @@ void Field::SpreadInfection()
     int newInfected = 0;
     while(newInfected < infectedCount)
     {
-        if(!( (*it)->GetIsInfected() ))
+        if( !( (*it)->GetIsInfected() ) )
         {
             (*it)->SetIsInfected(true);
             newInfected++;
@@ -159,11 +172,21 @@ void Field::SpreadInfection()
 void Field::IncrementAges() // increment Bunny.age, remove from bunnyList if too old
 { 
     if(initialTurn) { return; }
+
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
     {
-        const unique_ptr<Bunny>& u_ptr = *it;
-        u_ptr->SetAge(u_ptr->GetAge() + 1); 
+        (*it)->SetAge( (*it)->GetAge() + 1 ); 
+        ++it;
+    }
+}
+
+void Field::KillOld()
+{
+    list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
+    while(it!=bunnyList.end())
+    {
+        const unique_ptr<Bunny>& u_ptr = *it; 
         if(!(u_ptr->GetIsInfected()) && (u_ptr->GetAge() > lifespan)) 
         { 
             RmBunny(it);
@@ -181,6 +204,7 @@ void Field::IncrementAges() // increment Bunny.age, remove from bunnyList if too
 void Field::Breed() // create one additional Bunny for each suitable Female in the population
 {
     if(!(BreedMaleExists()) || allInfected) { return; }
+
     list<unique_ptr<Bunny>>::iterator it = bunnyList.begin();
     while(it!=bunnyList.end())
     {
@@ -196,6 +220,7 @@ void Field::Breed() // create one additional Bunny for each suitable Female in t
 void Field::PrintBunnies() // output info to the User
 {
     if(bunnyCount == 0) { return; }
+
     std::cout << "\nList of Bunnies in the field:\n";
     std::cout << "-----------------------------\n";
     for(unique_ptr<Bunny>& u_ptr : bunnyList)
@@ -208,6 +233,7 @@ void Field::PrintBunnies() // output info to the User
 
         std::cout << status << u_ptr->GetName() << std::setw(16 - name.length()) << " (Age: " << age << ", Sex: " << sex << ", Colour: " << colour << ")\n";
     }
+
     (allInfected)
     ? std::cout << "\nAll " << bunnyCount << " Bunnies are infected!\n"
     : std::cout << "\n" << infectedCount << " of " << bunnyCount << " Bunnies are infected.\n";
@@ -217,22 +243,12 @@ char Field::Advance() // advance program by one turn, return User input to main(
 {
     SpreadInfection();
     IncrementAges();
+    KillOld();
     Breed();
     if(bunnyCount > maxCount && populationLimited) { MassCull(true); }
     PrintBunnies();
 
     initialTurn = false; // Bunny ages will now increment each turn
 
-    char input = 'b';
-    std::cout << "\nPress k to initiate a mass cull, or any other key to advance (q to quit):\n> ";
-    std::cin >> input;
-    std::cout << "\n";
-    while(input == 'k')
-    {
-        MassCull(false);
-        std::cout << "\nPress k to initiate another mass cull, or any other key to advance (q to quit):\n> ";
-        std::cin >> input;
-        std::cout << "\n";
-    }
-    return input;
+    return GetUserInput();
 }

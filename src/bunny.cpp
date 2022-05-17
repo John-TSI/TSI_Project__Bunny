@@ -4,9 +4,9 @@ using _Bunny::Bunny;
 
 
 // --- constructor ---
-Bunny::Bunny(const unique_ptr<Bunny>& u_ptr) :
+Bunny::Bunny(const unique_ptr<Bunny>& u_ptr) :  // u_ptr will either point to a Female Bunny object, or be nullptr
     sex( Sex(rand()%2) ),
-    colour( !u_ptr ? Colour(rand()%4) : u_ptr->GetColour() ),  // u_ptr will either point to a Female Bunny object, or be nullptr
+    colour( !u_ptr ? Colour(rand()%4) : u_ptr->GetColour() ),
     isInfected( rand()%100 < 2 )
 {
     name = ((int)sex) 

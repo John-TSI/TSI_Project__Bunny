@@ -13,7 +13,8 @@ class Field
         static const int initCount = 5, maxCount = 1000;
         static const int adultAge = 2, lifespan = 10, infectedLifespan = 49;
         int bunnyCount = 0, infectedCount = 0;
-        bool initialTurn = true, adultMaleExists = false, allInfected = false, populationLimited = true;
+        bool initialTurn = true, adultMaleExists = false, allInfected = false;
+        bool populationLimited = true, progTerminate = false;
         list<unique_ptr<Bunny>> bunnyList = {};
 
     public:
@@ -30,11 +31,13 @@ class Field
 
         // --- utility ---
         bool BreedMaleExists();
+        char GetUserInput();
         void MassCull(const bool);
 
         // --- advance ---
         void SpreadInfection();
         void IncrementAges();
+        void KillOld();
         void Breed();
         void PrintBunnies();
         char Advance();
